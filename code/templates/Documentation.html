@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SCP-16-Tsundere</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    </head>
+    <body>
+        <div id="banner">
+            <header>
+                <a href="./intex.html" class="logo">
+                    <img class = "logo" src = "{{ url_for('static',filename='HTMLLOGO.png') }}" alt="logo" width="100" height="80">
+                </a>
+                <nav>
+                    <ul class = "nav_links" id="nav_links">
+                        <li><a href="/documentation.html">Documentation</a></li>
+                        <li><a href="/About.html">About</a></li>      
+                        <li><a href="./intex.html#updates">Updates</a></li>
+
+                        <li><a href="/intex.html#contact">Contact</a></li>
+                        {% if not authorized %}   
+                        <li><a href="/login" class="cta"><button>Login</button></a></li>
+                        {% else %}
+                        <li><a href="/selectServerPage.html">Dashboard</a></li>
+                        {%endif %}
+                </nav>
+                <a class = "cta" href="https://discord.com/api/oauth2/authorize?client_id=822265614244511754&permissions=8&scope=bot" target="_blank"><button>Invite</button></a>
+            </header>
+            <div class="largecontent">
+                <table class="documentation">
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Usage</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for command in dictOfCommands %}
+                        <tr>
+                            <td>{{dictOfCommands[command]['name']}}</td>
+                            <td>{{dictOfCommands[command]['usage']}}</td>
+                            <td>{{dictOfCommands[command]['desc']}}</td>
+                        </tr>
+                        {%endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <footer id="date">
+            
+        </footer>
+
+        <script>
+            document.getElementById("date").innerHTML = Date();
+            window.onscroll = scrollShowNav;
+            function scrollShowNav() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementsByTagName("nav")[0].style.top = "-50px";
+            } else {
+                document.getElementsByTagName("nav")[0].style.top = "0px";
+            }
+            }
+        </script>
+
+    </body>
+</html>

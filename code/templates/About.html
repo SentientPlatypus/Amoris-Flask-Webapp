@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SCP-16-Tsundere</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    </head>
+    <body>
+        <div id="banner">
+            <header>
+                <a href="./intex.html" class="logo">
+                    <img class = "logo" src = "{{ url_for('static',filename='HTMLLOGO.png') }}" alt="logo" width="100" height="80">
+                </a>
+                <nav>
+                    <ul class = "nav_links" id="nav_links">
+                        <li><a href="/documentation.html">Documentation</a></li>
+                        <li><a href="./About.html">About</a></li>      
+                        <li><a href="/intex.html#updates">Updates</a></li>
+
+                        <li><a href="./intex.html#contact">Contact</a></li>
+                        {% if not authorized %}   
+                        <li><a href="./login" class="cta"><button>Login</button></a></li>
+                        {% else %}
+                        <li><a href="./selectServerPage.html">Dashboard</a></li>
+                        {%endif %}
+                    </ul>
+                </nav>
+                <a class = "cta" href="https://discord.com/api/oauth2/authorize?client_id=822265614244511754&permissions=8&scope=bot" target="_blank"><button>Invite</button></a>
+            </header>
+
+        
+            <div class="aboutcontent">   
+                <h1>    
+                    About
+                </h1>
+                <p>
+                    SCP is a one of a kind multipurpose bot. It provides fully customizable moderation and utility along with image generation, fun commands, Levels, a fully functional economy system, a duels system, and a Girlfriend Simulator
+                    all in one package.
+
+                </p>
+            </div>
+        </div>
+
+
+        <div id="aboutpage">
+            <div class="aboutelementleft">
+                <div id="info"class="left">
+                    <h1>Info</h1>
+                    <h3>Getting Started</h3>
+                    <h2>basic bot information</h2>
+                    <p>
+                        Commands: <br> info | help | credit
+                    </p>   
+                </div>
+            </div>
+            <img src="{{ url_for('static',filename='info.png') }}" alt="info example" class="right">
+
+            <div class="aboutelement">
+                <img src="{{ url_for('static',filename='moderation.png') }}" alt="info example" >
+                <div id="moderation" class="right">
+                    <h1>Moderation</h1>
+                    <h3>Keep Everyone in Line with top of the line moderation.</h3>
+                    <h2>Make life easier for admins</h2>
+                    <p>
+                        Commands: <br> automod | ban | kick | mute | unmute | block | unblock | softban |  swear |  announce | suggest |  swearlb
+                    </p>   
+                </div>
+            </div>
+
+            <div class="aboutelementleft">
+                <div id="utility" class="left">
+                    <h1>Utility</h1>
+                    <h3>Tools to help your server succeed.</h3>
+                    <h2>tools for everybody</h2>
+                    <p>
+                        Commands: <br> snipe |  esnipe |  poll |  timer | clean |  choose | userinfo <br> serverinfo | channellinfo | permissions | mcstatus | mcskin
+                        <br>
+                        solve hangman | solve scramble | question | imdb | reddit sub | reddit reset | reddit set
+                    </p>   
+                </div>
+            </div>
+            <img src="{{ url_for('static',filename='utility.png') }}" alt="info example" class="right">
+
+            <div class="aboutelement">
+                <img src="{{ url_for('static',filename='settings.png') }}" alt="info example">
+                <div id="settings" class="right">
+
+                    <h1>Settings and Configuration</h1>
+                    <h3>totally customizable</h3>
+                    <h2>Do things the way you want.</h2>
+                    <p>
+                        Commands: <br> settings | <br> <br>
+
+                        config (group): <br>  badword | announcement | suggestion | setprefix
+                </div>
+            </div>
+
+            <div class="aboutelementleft">
+                <div id="gf" class="left">
+                    <h1>Girlfriend Simulator</h1>
+                    <h3>Ever feel lonely? We got you covered.</h3>
+                    <h2>A fully functional and customizable Girlfriend Simulator. Over 1200 lines of response sets.</h2>
+                    <p>
+                        Commands: <br> getgf | gfstats | breakup  <br> <br>
+                        gf (group): <br>image | netflix | hug | kiss | boink | propose | date | movies | text | gaming | talk
+                    </p>
+                </div>
+            </div>
+            <img src="{{ url_for('static',filename='gfsimulator.png') }}" alt="info example" class="right">
+
+            <div class="aboutelement">
+                <img src="{{ url_for('static',filename='duelsys.png') }}" alt="info example">
+                <div id="duels" class="right">
+                    <h1>Duels System</h1>
+                    <h3>a minigame reimagined.</h3>
+                    <h2>Play Turn based battles against your friends for xp, loot, and glory!</h2>
+                    <p>
+                        Commands: <br> duel | equip | upgrade | begin | rob
+                    </p>   
+                </div>
+            </div>
+
+            <div class="aboutelementleft">
+                <div id="economy" class="left">
+                    <h1>Economy</h1>
+                    <h3>A severe case of capitalism.</h3>
+                    <h2>Make your way to the top! Make money, spend money, repeat.</h2>
+                    <p>
+                        Commands: <br> rob | work | profile | worklist | apply | fish | hunt | mine | farm | chop | sell | craft | upgradepoint | send | achievement | 
+                        achievement | balance | richlb | shop | use |  give | gamestats | dep | withdraw | buy | inv | beg | watchlist | clearwatchlist
+                    </p>
+                </div>
+            </div>
+            <img src="{{ url_for('static',filename='currency.png') }}" alt="info example" class="right">
+
+            <div class="aboutelement">
+                <img src="{{ url_for('static',filename='Levelling.png') }}" alt="info example">
+                <div id="Levels" class="right">
+                    <h1>Levelling</h1>
+                    <h3>Its what it sounds like.</h3>
+                    <h2>get xp! Level up for upgradepoints!</h2>
+                    <p>
+                        Commands: <br> rank | ranklb | profile | achievement
+                    </p>   
+                </div>
+            </div>
+
+            <div class="aboutelementleft">
+                <div id="images" class="left">
+                    <h1>Image Generation</h1>
+                    <h3>A picture is worth 1000 words</h3>
+                    <h2>great visual aids.</h2>
+                    <p>
+                        Commands: <br> avatar | animeface | caption | ddlc | blurpify | phcomment | toxicity | weebify | tweet | nichijou | 
+                        threats | bodypillow | baguette | deepfry | clyde | ship | lolice | fact | 
+                        captcha | trash | whowouldwin | awooify | changemymind | magik | jpeg | gif | cat | dog | iphonex | kannagen | minesweeper | wanted | abouttocry | animepic
+                    </p>
+                </div>
+            </div>
+            <img src="{{ url_for('static',filename='imagegen.png') }}" alt="info example" class="right">
+
+            <div class="aboutelement">
+                <img src="{{ url_for('static',filename='fun.png') }}" alt="info example">
+
+                <div id="fun" class="right">
+                    <h1>Fun</h1>
+                    <h3>keep things active</h3>
+                    <h2>you should be having fun</h2>
+                    <p>
+                        Commands: <br> pp | roll | rate | wisdom | <br>  rickroll |  yomomma |  8ball |  animepic |  cookie |  coffee
+                    </p>   
+                </div>
+            </div>
+
+            <div class="aboutelementleft">
+                <div id="Math" class="left">
+                    <h1>Math</h1>
+                    <h3>"computational intelligence"</h3>
+                    <h2>mafs baby woo</h2>
+                    <p>
+                        Commands: <br> gcf |points | simplify | herons | hardsolve | softsolve
+                    </p>   
+                </div>
+            </div>
+            <img src="{{ url_for('static',filename='math.png') }}" alt="info example" class="right">
+
+        </div>
+        <br>
+
+        <footer id="date">
+            
+        </footer>
+
+        <script>
+            document.getElementById("date").innerHTML = Date();
+            window.onscroll = scrollShowNav;
+            function scrollShowNav() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementsByTagName("nav")[0].style.top = "-50px";
+            } else {
+                document.getElementsByTagName("nav")[0].style.top = "0px";
+            }
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SCP-16-Tsundere</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    </head>
+    <body>
+        <div id="banner">
+            <header>
+                <a href="./intex.html" class="logo">
+                    <img class = "logo" src = "{{ url_for('static',filename='HTMLLOGO.png') }}" alt="logo" width="100" height="80">
+                </a>
+                <nav>
+                    <ul class = "nav_links" id="nav_links">
+                        <li><a href="/documentation.html">Documentation</a></li>
+                        <li><a href="/About.html">About</a></li>      
+                        <li><a href="/intex.html#updates">Updates</a></li>
+                        <li><a href="/intex.html#contact">Contact</a></li>
+                        {% if not authorized %}   
+                        <li><a href="/login" class="cta"><button>Login</button></a></li>
+                        {% else %}
+                        <li><a href="/selectServerPage.html">Dashboard</a></li>
+                        {%endif %}
+                </nav>
+                <a class = "cta" href="https://discord.com/api/oauth2/authorize?client_id=822265614244511754&permissions=8&scope=bot" target="_blank"><button>Invite</button></a>
+            </header>
+
+            <nav>
+                <ul class="settingnav">
+                    {% if selected == 'mainsettings' %}
+                    <li id="selected"><a href="/dashboard/{{guild_id}}/mainsettings">Main Settings</a></li>
+                    {% else %}
+                    <li><a href="/dashboard/{{guild_id}}/mainsettings">Main Settings</a></li>
+                    {%endif %}
+
+                    {% if selected == 'config' %}
+                    <li id="selected"><a href="/dashboard/{{ guild_id }}/config">Configuration</a></li>
+                    {% else %}
+                    <li><a href="/dashboard/{{ guild_id }}/config">Configuration</a></li>
+                    {%endif %}
+
+                    {% if selected == 'automod' %}
+                    <li id="selected"><a href="/dashboard/{{guild_id}}/automod">automod</a></li>
+                    {% else %}
+                    <li><a href="/dashboard/{{guild_id}}/automod">automod</a></li>
+                    {%endif %}
+
+                    {% if selected == 'stats' %}
+                    <li id="selected"><a href="/dashboard/{{guild_id}}/stats">Server Stats</a></li>
+                    {% else %}
+                    <li><a href="/dashboard/{{guild_id}}/stats">Server Stats</a></li>
+                    {%endif %}
+
+                </ul>
+            </nav>
+            <div class="largecontent">   
+                <p>
+                    Welcome, {{username}}, to {{guildname}}.
+                </p>
+                {% if selected != 'stats'%}
+                <form action="/dashboard/{{guild_id}}/{{selected}}/handledata" method="POST" name="form">
+                    {% if selected == 'automod' %}
+                    <section class='automod'>
+                        <label for="links">Restrict Links</label>
+                        {% if 'links' in settings['automod'] %}
+                        <select id="links" name="links" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>
+                        {%else%}
+                        <select id="links" name="links" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>                        
+                        {%endif%}
+                        <hr>
+
+                        <label for="images">Restrict attatchments</label>
+                        {% if 'images' in settings['automod'] %}
+                        <select id="images" name="images" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>   
+                        {%else%}
+                        <select id="images" name="images" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>   
+                        {%endif%}
+                        <hr>
+
+                        <label for="spam">Restrict Spamming</label>
+                        {% if 'spam' in settings['automod'] %}
+                        <select id="spam" name="spam" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>   
+                        {%else%}
+                        <select id="spam" name="spam" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>   
+                        {%endif%}                    
+                    </section>
+                    
+
+
+                    {%elif selected == 'mainsettings'%}
+                    <section class='mainsettings'>
+                        <label for="Profanity Filter">Profanity Filter</label>
+                        {% if settings['Profanity Filter']== True%}
+                        <select id="Profanity Filter" name="Profanity Filter" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>   
+                        {% else%}
+                        <select id="Profanity Filter" name="Profanity Filter" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>   
+                        {%endif%}
+                        <hr>
+
+                        <label for="lol on message">Lol on message</label>
+                        {% if settings['lol on message']== True%}
+                        <select id="lol on message" name="lol on message" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>   
+                        {% else%}
+                        <select id="lol on message" name="lol on message" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>   
+                        {%endif%}                        
+                        <hr>
+
+                        <label for="suggest">Allow Suggestions</label>
+                        {% if settings['suggest']== True%}
+                        <select id="suggest" name="suggest" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>   
+                        {% else%}
+                        <select id="suggest" name="suggest" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>   
+                        {%endif%}
+                        <hr>
+
+                        <label for="announce">Allow announcements from admins</label>
+                        {% if settings['announce'] == True%}
+                        <select id="announce" name="announce" value="enabled">
+                            <option value="enabled" selected>Enabled</option>
+                            <option value="disabled">Disabled</option>
+                        </select>   
+                        {% else%}
+                        <select id="announce" name="announce" value="disabled">
+                            <option value="enabled">Enabled</option>
+                            <option value="disabled" selected>Disabled</option>
+                        </select>  
+                        {%endif%}  
+
+                    </section>
+
+
+
+                    {%elif selected == 'config'%}
+                    <section class='config'>
+                        <label for="text">Current Bot Prefix:</label>
+                        {% if settings['prefix']%}
+                        <input type="text" id="prefix" name="prefix" value="{{settings['prefix']}}" required>
+                        {% else %}
+                        <input type="text" id="prefix" name="prefix" value="^" required>
+                        {%endif %}
+                        <hr>
+                        <label for="badwords">Filtered words</label>
+                        <div class="inputfield">
+                            <ol id="list_item_badwords">
+                                {% for word in settings['badwords']%}
+                                <Li>
+                                    <input type="text" id="badword" name="badwords" value="{{word}}">
+                                    <button type="button" class="close">x</button> 
+                                </Li>
+                                {%endfor%}
+
+                            </ol>
+                            <input type="button" id="addbadwords" value="Add New" class="addbutton">
+                            <input type="text" id="badwords" name="badwords" >
+                        </div>
+                        <hr>
+
+                        <label for="announcement channels">Announcement Channels</label>
+                        <div class="inputfield">
+                            <ol id="list_item_announce">
+                                {% for x in settings['announcement channels']%}
+                                <Li>
+                                    <input type="text" id="announcement" name="announcement channels" value="{{x}}" readonly>
+                                    <button type="button" class="close">x</button> 
+                                </Li>                                
+                                {%endfor%}
+                            </ol>
+                            <input type="button" id="addannounce" value="Add New" class="addbutton">
+                            <select id="announcement_channels">
+                                {% for channel in textchannels%}
+                                <option value="{{channel}}">{{channel}}</option>
+                                {%endfor %}
+                            </select>
+                        </div>
+                        <hr>
+
+                        <label for="suggestion channels">Suggestion Channels</label>
+                        <div class="inputfield">
+                            <ol id="list_item_suggest" name = "ol">
+                                {% for x in settings['suggestion channels']%}
+                                <Li>
+                                    <input type="text" id="suggestion" name="suggestion channels" value="{{x}}" readonly>
+                                    <button type="button" class="close">x</button> 
+                                </Li>                                
+                                {%endfor%}
+                            </ol>
+                            <input type="button" id="addsuggest" value="Add New" class="addbutton">
+                            <select id="suggestion_channels">
+                                {% for channel in textchannels%}
+                                <option value="{{channel}}">{{channel}}</option>
+                                {%endfor %}
+                            </select>
+                        </div>
+                    </section>
+
+                    {%endif %}
+                    <input type="submit", value="save changes" class="submitbutton">
+                </form>
+                {% endif%}
+                {%if selected == 'stats'%}
+                <div>
+                    <p>Server Level Leaderboard</p>
+                    <ol class="inputfield">
+                        {%for x in settings['ranklb']%}
+                        <li>{{x}}</li>
+                        {%endfor%}
+                    </ol>
+                </div>
+                <hr>
+                <div>
+                    <p>Server net worth Leaderboard</p>
+                    <ol class="inputfield">
+                        {%for x in settings['richlb']%}
+                        <li>{{x}}</li>
+                        {%endfor%}
+                    </ol>
+                </div>
+                <hr>
+                <div>   
+                    <p>Server swears Leaderboard</p>
+                    <ol class="inputfield">
+                        {%for x in settings['swearlb']%}
+                        <li>{{x}}</li>
+                        {%endfor%}
+                    </ol>
+                </div>
+
+                {%endif%}
+
+
+            </div>
+        </div>
+        <footer id="date">
+            
+        </footer>
+
+        <script>
+            var closebtns = document.getElementsByClassName("close");
+            var i;
+            /* Loop through the elements, and hide the parent, when clicked on */
+            function addremover(x) {
+                x.addEventListener("click", function() {
+                    this.parentElement.remove() = 'none';
+            });
+            }
+            for (i = 0; i < closebtns.length; i++) {
+            closebtns[i].addEventListener("click", function() {
+                this.parentElement.remove() = 'none';
+            });
+            }
+
+            document.getElementById("addannounce").onclick  = function() {
+                var node = document.createElement("Li");
+                var text = document.getElementById("announcement_channels").value; 
+                var textnode=document.createTextNode(text);
+
+                var button = document.createElement("button");
+                button.type = "button";
+                button.className = "close";
+                var xnode = document.createTextNode("x")
+                button.appendChild(xnode)
+                addremover(button)
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.id = "announcement";
+                input.name = "announcement_channels";
+                input.value = text;
+                input.readOnly = true;
+
+                node.appendChild(input)
+                node.appendChild(button);
+                
+                document.getElementById("list_item_announce").appendChild(node);
+            }
+
+            document.getElementById("addbadwords").onclick  = function() {
+                var node = document.createElement("Li");
+                var text = document.getElementById("badwords").value; 
+                var textnode=document.createTextNode(text);
+
+                var button = document.createElement("button");
+                button.type = "button";
+                button.className = "close";
+                var xnode = document.createTextNode("x")
+                button.appendChild(xnode)
+                addremover(button)
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.id = "badword";
+                input.name = "badword";
+                input.value = text;
+                input.readOnly = true;
+
+
+                node.appendChild(input)
+                node.appendChild(button);
+
+                document.getElementById("list_item_badwords").appendChild(node);
+            }
+
+            document.getElementById("addsuggest").onclick  = function() {
+                var node = document.createElement("Li");
+                var text = document.getElementById("suggestion_channels").value; 
+                var textnode=document.createTextNode(text);
+
+                var button = document.createElement("button");
+                button.type = "button";
+                button.className = "close";
+                var xnode = document.createTextNode("x")
+                button.appendChild(xnode)
+                addremover(button)
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.id = "suggestion";
+                input.name = "suggestion_channels";
+                input.value = text;
+                input.readOnly = true;
+
+
+                node.appendChild(input)
+                node.appendChild(button);
+
+                document.getElementById("list_item_suggest").appendChild(node);
+            }
+
+            document.getElementById("date").innerHTML = Date();
+            window.onscroll = scrollShowNav;
+            function scrollShowNav() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementsByTagName("nav")[0].style.top = "-50px";
+            } else {
+                document.getElementsByTagName("nav")[0].style.top = "0px";
+            }
+            }
+
+        </script>
+    </body>
+</html>
