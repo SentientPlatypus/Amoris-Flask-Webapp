@@ -1,13 +1,9 @@
-from ssl import match_hostname
 from pymongo.mongo_client import MongoClient
 from quart import Quart, render_template, request, session, redirect, url_for
 from oath import Oauth
 from quart_discord import DiscordOAuth2Session
 from discord.ext import ipc
 from pymongo import MongoClient
-import json
-import traceback
-import ast
 import re
 def getMongo():
     return MongoClient("mongodb+srv://SCP:Geneavianina@scp16cluseter.foubt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
@@ -17,15 +13,20 @@ DiscordGuild = cluster["discord"]["guilds"]
 
 ipc_client = ipc.Client(secret_key="g")
 
+
+
+#python pagekite.py 5000 scp16tsundere.pagekite.me
+
+
 app = Quart(
     __name__, 
-    template_folder=r"C:\Users\trexx\Documents\PYTHON CODE LOL\SCP-16-Tsundere-Discord-Bot\SCP\OnlineResource\templates",
-    static_folder=r"C:\Users\trexx\Documents\PYTHON CODE LOL\SCP-16-Tsundere-Discord-Bot\SCP\OnlineResource\static",
+    template_folder=r"C:\Users\trexx\Documents\PYTHON CODE LOL\SCP-16-Tsundere-Flask-Webapp\SCP-16-Tsundere-Flask-Webapp\code\templates",
+    static_folder=r"C:\Users\trexx\Documents\PYTHON CODE LOL\SCP-16-Tsundere-Flask-Webapp\SCP-16-Tsundere-Flask-Webapp\code\static",
     )
 app.config["SECRET_KEY"] = "geneavianina"
 app.config["DISCORD_CLIENT_ID"] = 822265614244511754   # Discord client ID.
 app.config["DISCORD_CLIENT_SECRET"] = "vaqJa9ZQAWawL7FJlHYYBeuQw-JIBtO2"  # Discord client secret.
-app.config["DISCORD_REDIRECT_URI"] = "http://127.0.0.1:5000/callback"   
+app.config["DISCORD_REDIRECT_URI"] = "http://scp16tsundere.pagekite.me:443/callback"   
 
 discord = DiscordOAuth2Session(app)
 

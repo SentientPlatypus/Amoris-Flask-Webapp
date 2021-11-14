@@ -24,6 +24,17 @@
                         <li><a href="/login" class="cta"><button>Login</button></a></li>
                         {% else %}
                         <li><a href="/selectServerPage.html">Dashboard</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="dropbtn">Account</button>
+                                <div class="dropdown-content">
+                                    <a href="./login", id="account">
+                                        <button>relogin</button>
+                                    </a>
+
+                                </div>
+                              </div>
+                        </li>
                         {%endif %}
                 </nav>
                 <a class = "cta" href="https://discord.com/api/oauth2/authorize?client_id=822265614244511754&permissions=8&scope=bot" target="_blank"><button>Invite</button></a>
