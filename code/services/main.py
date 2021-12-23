@@ -2,8 +2,8 @@ from pymongo.mongo_client import MongoClient
 from quart import Quart, render_template, request, session, redirect, url_for
 from oath import Oauth
 from quart_discord import DiscordOAuth2Session
-from discord.ext import ipc
 from pymongo import MongoClient
+import config
 import re
 def getMongo():
     return MongoClient("mongodb+srv://SCP:Geneavianina@scp16cluseter.foubt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
@@ -11,7 +11,6 @@ def getMongo():
 cluster = getMongo()
 DiscordGuild = cluster["discord"]["guilds"]
 
-ipc_client = ipc.Client(secret_key="g")
 
 
 
@@ -20,19 +19,19 @@ ipc_client = ipc.Client(secret_key="g")
 
 app = Quart(
     __name__, 
-    template_folder=r"C:\Users\trexx\Documents\PYTHON CODE LOL\SCP-16-Tsundere-Flask-Webapp\SCP-16-Tsundere-Flask-Webapp\code\templates",
-    static_folder=r"C:\Users\trexx\Documents\PYTHON CODE LOL\SCP-16-Tsundere-Flask-Webapp\SCP-16-Tsundere-Flask-Webapp\code\static",
+    template_folder=r"templates",
+    static_folder=r"static",
     )
 app.config["SECRET_KEY"] = "geneavianina"
 app.config["DISCORD_CLIENT_ID"] = 822265614244511754   # Discord client ID.
 app.config["DISCORD_CLIENT_SECRET"] = "vaqJa9ZQAWawL7FJlHYYBeuQw-JIBtO2"  # Discord client secret.
-app.config["DISCORD_REDIRECT_URI"] = "http://scp16tsundere.pagekite.me:443/callback"   
+app.config["DISCORD_REDIRECT_URI"] = "http://127.0.0.1:5000/callback" 
 
 discord = DiscordOAuth2Session(app)
 
 @app.route("/")
 async def home():
-    guild_count = await ipc_client.request("get_guild_count")
+    guild_count = config.get_guild_count()
     return await render_template(
         "./intex.html", 
         discord_url=Oauth.discord_login_url, 
@@ -41,7 +40,7 @@ async def home():
 
 @app.route("/intex.html")
 async def home1():
-    guild_count = await ipc_client.request("get_guild_count")
+    guild_count = config.get_guild_count()
 
     return await render_template(
         "./intex.html", 
@@ -51,7 +50,7 @@ async def home1():
 
 @app.route("/documentation.html")
 async def doc():
-    cmds = await ipc_client.request("getDocumentation")
+    cmds = config.getDocumentation()
 
     return await render_template(
         "./Documentation.html", 
@@ -68,14 +67,13 @@ async def dashboard(guild_id):
     if not await discord.authorized:
         print("not authorized")
         return redirect(url_for("login")) 
-    guild = await ipc_client.request("get_guild", guild_id = guild_id)
+    guild = config.get_guild(guild_id)
     if guild is None:
         print("guildnotfoundlmao")
         return redirect(f'https://discord.com/oauth2/authorize?&client_id={app.config["DISCORD_CLIENT_ID"]}&scope=bot&permissions=8&guild_id={guild_id}&response_type=code&redirect_uri={app.config["DISCORD_REDIRECT_URI"]}')
     
     user = await discord.fetch_user()
     settings = await ipc_client.request("get_guild_settings", guild_id=guild_id)
-    print(settings)
     return await render_template(
         "/dashboard.html", 
         username = user.name, 
@@ -94,18 +92,17 @@ async def dashboardSettingPage(guild_id, settingPage):
     if not await discord.authorized:
         print("not authorized")
         return redirect(url_for("login")) 
-    guild = await ipc_client.request("get_guild", guild_id = guild_id)
+    guild = config.get_guild(guild_id)
     if guild is None:
         print("guildnotfoundlmao")
         return redirect(f'https://discord.com/oauth2/authorize?&client_id={app.config["DISCORD_CLIENT_ID"]}&scope=bot&permissions=8&guild_id={guild_id}&response_type=code&redirect_uri={app.config["DISCORD_REDIRECT_URI"]}')
     
-    textchannels = await ipc_client.request("return_channels", guild_id = guild_id)
+    textchannels = config.return_channels(guild_id)
 
     user = await discord.fetch_user()
 
     print("check")
-    settings = await ipc_client.request("get_guild_settings", guild_id=guild_id)
-    print(settings)
+    settings = config.get_guild_settings(guild_id)
 
     return await render_template(
         "/dashboard.html", 
@@ -158,38 +155,38 @@ async def handledata(guild_id, settingPage):
 
     if settingPage == "config":
         DiscordGuild.update_one({"id":guild_id}, {"$set":{"prefix":projectpath.get("prefix")}})
-        regex = "\:\s\d{18}\}$"
+        regex = "\'\d{18}\'\:\s.+\}$"
+        testreg = ".*"
         geId = "\d{18}"
         formKeys = form.keys()
 
-        if "announcement_channels" in formKeys:
+        if "announcement channels" in formKeys:
             announcementChannels.clear()
-            if type(form["announcement_channels"]) == list:
-                for channelDict in form["announcement_channels"]:
-                    print(channelDict)
+            if type(form["announcement channels"]) == list:
+                for channelDict in form["announcement channels"]:
                     valueString = re.findall(regex, channelDict)[0]
                     channelId = int(re.findall(geId, valueString)[0])
                     announcementChannels.append(channelId)
             else:
-                valueString = re.findall(regex, form["announcement_channels"])[0]
+                valueString = re.findall(regex, form["announcement channels"])[0]
                 channelId = int(re.findall(geId, valueString)[0])
                 announcementChannels.append(channelId)
-            print(announcementChannels)
+            announcementChannels = config.removeDupes(announcementChannels)
             DiscordGuild.update_one({"id":guild_id}, {"$set":{"announcement channels":announcementChannels}})
 
 
-        if "suggestion_channels" in formKeys:
+        if "suggestion channels" in formKeys:
             suggestionChannels.clear()
-            if type(form["suggestion_channels"]) == list:
-                for channelDict in form["suggestion_channels"]:
-                    print(channelDict)
+            if type(form["suggestion channels"]) == list:
+                for channelDict in form["suggestion channels"]:
                     valueString = re.findall(regex, channelDict)[0]
                     channelId = int(re.findall(geId, valueString)[0])
                     suggestionChannels.append(channelId)
             else:
-                valueString = re.findall(regex, form["suggestion_channels"])[0]
+                valueString = re.findall(regex, form["suggestion channels"])[0]
                 channelId = int(re.findall(geId, valueString)[0])
                 suggestionChannels.append(channelId)
+            suggestionChannels = config.removeDupes(suggestionChannels)
             DiscordGuild.update_one({"id":guild_id}, {"$set":{"suggestion channels":suggestionChannels}})
 
 
@@ -215,8 +212,8 @@ async def selectServer():
     if not await discord.authorized:
         return redirect(url_for("login")) 
 
-    guild_count = await ipc_client.request("get_guild_count")
-    guild_ids = await ipc_client.request("get_guild_ids")
+    guild_count = config.get_guild_count()
+    guild_ids = config.get_guild_ids()
 
     user_guilds = await discord.fetch_guilds()
     

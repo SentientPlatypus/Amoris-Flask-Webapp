@@ -7,6 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        <link rel="icon" href="{{ url_for('static',filename='HTMLLOGO.png') }}">
     </head>
     <body>
         <div id="banner">
@@ -315,7 +316,7 @@
                 var input = document.createElement("input");
                 input.type = "text";
                 input.id = "announcement";
-                input.name = "announcement_channels";
+                input.name = "announcement channels";
                 input.value = text;
                 input.readOnly = true;
 
@@ -366,7 +367,7 @@
                 var input = document.createElement("input");
                 input.type = "text";
                 input.id = "suggestion";
-                input.name = "suggestion_channels";
+                input.name = "suggestion channels";
                 input.value = text;
                 input.readOnly = true;
 
