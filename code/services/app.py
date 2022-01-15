@@ -22,6 +22,7 @@ app = Quart(
     template_folder=r"templates",
     static_folder=r"static",
     )
+
 app.config["SECRET_KEY"] = "geneavianina"
 app.config["DISCORD_CLIENT_ID"] = 822265614244511754   # Discord client ID.
 app.config["DISCORD_CLIENT_SECRET"] = "vaqJa9ZQAWawL7FJlHYYBeuQw-JIBtO2"  # Discord client secret.
@@ -73,7 +74,7 @@ async def dashboard(guild_id):
         return redirect(f'https://discord.com/oauth2/authorize?&client_id={app.config["DISCORD_CLIENT_ID"]}&scope=bot&permissions=8&guild_id={guild_id}&response_type=code&redirect_uri={app.config["DISCORD_REDIRECT_URI"]}')
     
     user = await discord.fetch_user()
-    settings = await ipc_client.request("get_guild_settings", guild_id=guild_id)
+    settings = config.get_guild_settings
     return await render_template(
         "/dashboard.html", 
         username = user.name, 

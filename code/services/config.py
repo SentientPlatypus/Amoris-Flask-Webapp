@@ -85,7 +85,7 @@ def get_guild_settings(guildid):
                 temp = memberz[str(x["id"])]
 
                 tempswears = x["xp"]
-                returnlist.append(f"{temp}'s Level: `{Globals.getLevelfromxp(tempswears)}`") 
+                returnlist.append(f"{temp}'s Level: `{tempswears}`") 
                 i+=1
                 if i==11:
                     break
