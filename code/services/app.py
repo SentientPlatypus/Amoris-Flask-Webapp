@@ -6,7 +6,7 @@ from pymongo import MongoClient
 import config
 import re
 def getMongo():
-    return MongoClient("mongodb+srv://SCP:Geneavianina@scp16cluseter.foubt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
+    return MongoClient("mongodb+srv://SCP:PASSS@scp16cluseter.foubt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE")
 
 cluster = getMongo()
 DiscordGuild = cluster["discord"]["guilds"]
